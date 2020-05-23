@@ -33,7 +33,12 @@ RSpec.describe GramsController, type: :controller do
       user = FactoryBot.create(:user)
       sign_in user
 
-      post :create, params: { gram: { message: 'Hello!' } }
+      post :create, params: { 
+        gram: {
+          message: 'Hello!',
+          picture: fixture_file_upload("/picture.png", 'image.png')
+        }
+      }
       expect(response).to redirect_to root_path
 
       gram = Gram.last
@@ -66,7 +71,7 @@ RSpec.describe GramsController, type: :controller do
   end
 
   describe "grams#edit action" do
-    it "shouldn't let a user who did not create the gram edit the gram" do
+    it "shouldn't let a user who did not create the gram edit a gram" do
       gram = FactoryBot.create(:gram)
       user = FactoryBot.create(:user)
       sign_in user
